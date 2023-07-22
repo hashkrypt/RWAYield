@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
-const tabs = [{ name: "Summary", href: "#", current: false }];
+const tabs = [{ name: "Balance", href: "#", current: false }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

@@ -29,7 +29,7 @@ function Page() {
   return (
     <div className="flex-auto px-8 min-h-screen bg-[#1C1E30]">
       {Header()}
-      <div className="flex justify-center items-center min-h-[700px] flex-col   ">
+      <div className="flex justify-center items-center min-h-[600px] flex-col   ">
         <DepositModule />
         <RewardsModule />
       </div>
