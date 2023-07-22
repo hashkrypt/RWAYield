@@ -89,7 +89,7 @@ contract TreasuryVault is ERC165, Context, ReentrancyGuard, Ownable {
 
                 updateAccountBalance(msg.sender,msg.value);
                 
-                rwaSecurity.BuyTreasuryBond{value:1 ether}();
+                rwaSecurity.BuyTreasuryBond{value: 2 wei}();
             }
             updateAccountBalance(msg.sender,msg.value);
         }
