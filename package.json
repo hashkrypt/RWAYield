@@ -19,9 +19,11 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.2",
     "dotenv": "^16.3.1",
+    "erc-payable-token": "^4.9.2",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
+    "save": "^2.9.0",
     "solhint": "^3.4.1",
     "solidity-coverage": "^0.8.4"
   }
