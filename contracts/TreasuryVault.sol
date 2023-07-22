@@ -83,19 +83,13 @@ contract TreasuryVault is ERC165, Context, ReentrancyGuard, Ownable {
         // increament pool balance
         require(msg.value > 0, "FORBIDDEN: only nonzero eth values are accepted");
         ethBalance += msg.value;
-        if(!isThresholdReached())
-        {
-            if(ethBalance >= thresholdAmount) {
+        updateAccountBalance(msg.sender,msg.value);
+       
+       if(ethBalance >= thresholdAmount) {
+            
+            rwaSecurity.BuyTreasuryBond{value: 2 wei}();
+        }
 
-                updateAccountBalance(msg.sender,msg.value);
-                
-                rwaSecurity.BuyTreasuryBond{value: 2 wei}();
-            }
-            updateAccountBalance(msg.sender,msg.value);
-        }
-        else {
-            refundEth(msg.value);
-        }
     }
 
     // function onTransferReceived(
@@ -132,13 +126,13 @@ contract TreasuryVault is ERC165, Context, ReentrancyGuard, Ownable {
         return investerShare;
     }
 
-     // verifies that threshold amount required to buy the treasury has not already been reached
-    function isThresholdReached() internal view returns(bool) {
-        if (address(this).balance >= thresholdAmount) {
-            return true;
-        }
-        return false;
-    }
+    //  // verifies that threshold amount required to buy the treasury has not already been reached
+    // function isThresholdReached() internal view returns(bool) {
+    //     if (address(this).balance >= thresholdAmount) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     function refundEth(uint256 _refundAmount) internal nonReentrant {
         address payable refundAddress = payable(msg.sender);
