@@ -11,7 +11,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  *        in real world this would be a security token erc1400 etc
  */
 contract TreasuryBond is ERC20Burnable {
-    uint256 price = 1 ether;
+    uint256 price = 1 wei;
     constructor() ERC20("TreasuryBond", "TB") {}
 
     function BuyTreasuryBond() external payable {
