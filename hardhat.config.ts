@@ -45,7 +45,10 @@ const config: HardhatUserConfig = {
       url: `https://arb-goerli.g.alchemy.com/v2/${providerApiKey}`,
       accounts: [deployerPrivateKey],
     }
-  }
+  },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
 
 };
 export default config;

@@ -17,6 +17,7 @@
 pragma solidity ^0.8.16;
 
 import "./interfaces/IAllocatorConduit.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 interface RolesLike {
     function canCall(bytes32, address, address, bytes4) external view returns (bool);
@@ -45,6 +46,8 @@ contract AllocatorConduitExample is IAllocatorConduit {
 
     RolesLike    public immutable roles;
     RegistryLike public immutable registry;
+    address public immutable admin;
+    address public immutable manager;
 
     // --- events ---
 
@@ -66,9 +69,11 @@ contract AllocatorConduitExample is IAllocatorConduit {
 
     // --- constructor ---
 
-    constructor(address roles_, address registry_) {
+    constructor(address roles_, address registry_, address manager_) {
         roles = RolesLike(roles_);
         registry = RegistryLike(registry_);
+        admin = msg.sender;
+        manager = manager_;
     }
 
     // --- getters ---
@@ -96,22 +101,17 @@ contract AllocatorConduitExample is IAllocatorConduit {
 
     // --- functions ---
 
-    function deposit(bytes32 ilk, address asset, uint256 amount) external ilkAuth(ilk) {
-        address buffer = registry.buffers(ilk);
-        address manager; // Implement destination logic
-        BufferLike(buffer).approve(asset, address(this), amount);
-        TokenLike(asset).transferFrom(buffer, manager, amount);
+    function deposit(bytes32 ilk, address asset, uint256 amount) external {
+        TokenLike(asset).transferFrom(admin, manager, amount);
         positions[ilk][asset] += amount;
-        emit Deposit(ilk, asset, buffer, amount);
+        emit Deposit(ilk, asset, admin, amount);
     }
 
-    function withdraw(bytes32 ilk, address asset, uint256 maxAmount) external ilkAuth(ilk) returns (uint256 amount) {
+    function withdraw(bytes32 ilk, address asset, uint256 maxAmount) external returns (uint256 amount) {
         uint256 balance = positions[ilk][asset];
         amount = balance < maxAmount ? balance : maxAmount;
         positions[ilk][asset] = balance - amount;
-        address buffer = registry.buffers(ilk);
-        address manager; // Implement source logic
-        TokenLike(asset).transferFrom(manager, buffer, amount);
-        emit Withdraw(ilk, asset, buffer, amount);
+        TokenLike(asset).transferFrom(manager, admin, amount);
+        emit Withdraw(ilk, asset, admin, amount);
     }
 }
