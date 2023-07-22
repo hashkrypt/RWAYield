@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.18;
 
 import "erc-payable-token/contracts/token/ERC1363/ERC1363.sol";
@@ -15,7 +14,7 @@ contract TreasuryBond is ERC20Burnable {
     constructor() ERC20("TreasuryBond", "TB") {}
 
     function BuyTreasuryBond() external payable {
-        if(msg.value == price) {
+        if(msg.value >= price) {
              _mint(msg.sender, 1);
         }
     }
