@@ -72,7 +72,7 @@ export default function RewardsModule() {
         }}
       >
         <div className="flex justify-between w-full my-2 bg-[#2E3151] p-4 rounded-lg">
-          <p className="text-[#9A9CB1]">Accumulated Interest</p>
+          <p className="text-[#9A9CB1]">Accrued Interest</p>
           <p className="text-[#9A9CB1]">0 DAI</p>
         </div>
         <div className="flex justify-between w-full my-2 bg-[#2E3151] p-4 rounded-lg">
