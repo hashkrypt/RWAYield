@@ -18,4 +18,8 @@ contract TreasuryBond is ERC20Burnable {
              _mint(msg.sender, 1);
         }
     }
+
+    function mint(uint256 amount) external{
+        _mint(msg.sender, amount);
+    }
 }
