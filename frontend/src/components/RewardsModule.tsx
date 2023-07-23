@@ -28,17 +28,15 @@ const someRendering = (
   </div>
 );
 
-export default function RewardsModule() {
-  const [depositComp, setDepositcomp] = useState(true);
-
-  useEffect(() => {}, [depositComp]);
+export const RewardsModule = (props) => {
+  useEffect(() => {}, []);
 
   return (
     <div className=" w-4/12 bg-[#242741] rounded-lg mt-6	">
       {someRendering}
 
       {/* // Nav Component / useState for Deposit and Withdraw */}
-      <div className="hidden sm:block">
+      {/* <div className="hidden sm:block">
         <div className="">
           <nav
             className="-mb-px flex space-x-8 bg-[#111320] px-2 rounded-t-lg                        "
@@ -57,7 +55,7 @@ export default function RewardsModule() {
             ))}
           </nav>
         </div>
-      </div>
+      </div> */}
 
       {/* // Main Other Components */}
       <div
@@ -77,7 +75,7 @@ export default function RewardsModule() {
         </div>
         <div className="flex justify-between w-full my-2 bg-[#2E3151] p-4 rounded-lg">
           <p className="text-[#9A9CB1]">Outstanding Debt</p>
-          <p className="text-[#9A9CB1]">0 DAI</p>
+          <p className="text-[#9A9CB1]">{props.debtAmount} DAI</p>
         </div>
       </div>
     </div>

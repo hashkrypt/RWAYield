@@ -102,8 +102,8 @@ contract AllocatorConduitExample is IAllocatorConduit {
     // --- functions ---
 
     function deposit(bytes32 ilk, address asset, uint256 amount) external {
-        TokenLike(asset).transferFrom(admin, manager, amount);
         positions[ilk][asset] += amount;
+        TokenLike(asset).transferFrom(admin, manager, amount);
         emit Deposit(ilk, asset, admin, amount);
     }
 

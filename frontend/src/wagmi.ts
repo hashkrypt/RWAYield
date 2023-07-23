@@ -20,4 +20,6 @@ export const client = createClient({
   webSocketProvider,
 })
 
-export { chains }
+
+
+export { chains, provider }

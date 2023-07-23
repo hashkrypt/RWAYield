@@ -36,6 +36,7 @@ contract TreasuryVault is ERC165, Context, ReentrancyGuard, Ownable {
 
     // mapping that holds total eth lent to this contract from different MakerSubDao
     mapping(address => account) public investers;
+    mapping(address => uint256) public stakedSecurityTokens;
 
 
     // list of lenders
@@ -60,6 +61,9 @@ contract TreasuryVault is ERC165, Context, ReentrancyGuard, Ownable {
 
 
     event LogTreasuryMaturity();
+
+    event Borrow(address indexed who, address indexed asset, uint256 amount);
+    event Repay(address indexed who, address indexed asset, uint256 amount);
 
 
     /**
@@ -113,6 +117,20 @@ contract TreasuryVault is ERC165, Context, ReentrancyGuard, Ownable {
         uint share = calculateInvesterShare(msg.sender);
         require(share <= daiToken.balanceOf(address(this)));
         bool success = daiToken.transfer(msg.sender, share);
+    }
+
+    function borrow(address asset, uint256 amount) external nonReentrant{
+        stakedSecurityTokens[msg.sender] += amount;
+        bool success = daiToken.transfer(msg.sender, amount);
+        rwaSecurity.mint(amount);
+        emit Borrow(msg.sender, asset, amount);
+    }
+
+    function repay(address asset, uint256 amount) external nonReentrant{
+        stakedSecurityTokens[msg.sender] -= amount;
+        bool success = daiToken.transferFrom(msg.sender, address(this), amount);
+        rwaSecurity.transfer(msg.sender, amount);
+        emit Repay(msg.sender, asset, amount);
     }
 
     // TODO: fix this by adding fixed point airthmatic calculations, and then using formula 
